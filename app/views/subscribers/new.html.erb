@@ -1,0 +1,63 @@
+<div class="flex min-h-screen w-full items-center justify-center bg-[#a30000] px-6 py-12">
+  <div class="w-full max-w-md">
+
+    <div class="mb-20 text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        Coming soon
+      </h1>
+    </div>
+
+    <%= form_with model: @subscriber, url: subscribers_path,
+                  data: {
+                  controller: "email-validation",
+                  action: "submit->email-validation#validateSubmit"
+                  },
+                  class: "space-y-12" do |form| %>
+
+      <% if @subscriber.errors.any? %>
+        <div class="mb-6 text-sm text-white" role="alert">
+          <% @subscriber.errors.full_messages.each do |message| %>
+            <p><%= message %></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :email, "Your email",
+                       class: "mb-4 block text-xl font-bold text-white" %>
+
+        <%= form.text_field :email, type: "text", placeholder: "Email", autocomplete: "email", required: true,
+                            data: {
+                            email_validation_target: "email",
+                            action: "focus->email-validation#revealError input->email-validation#validate"
+                            },
+                            aria: {
+                            describedby: "email-error",
+                            invalid: "false"
+                            },
+                            class: "block w-full rounded-none border-0 border-b-2 border-slate-300 bg-transparent px-0 py-3 text-lg text-white placeholder:text-white/60 focus:border-white focus:outline-none focus:ring-0" %>
+
+        <div id="email-error"
+             data-email-validation-target="error"
+             class="mt-2 min-h-5 text-sm text-white">
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :name, "Your name",
+                       class: "mb-4 block text-xl font-bold text-white" %>
+
+        <%= form.text_field :name, placeholder: "Name", autocomplete: "name",
+                            class: "block w-full rounded-none border-0 border-b-2 border-slate-300 bg-transparent px-0 py-3 text-lg text-white placeholder:text-white/60 focus:border-white focus:outline-none focus:ring-0" %>
+      </div>
+
+      <div class="pt-8">
+        <%= form.submit "JOIN THE WAITING LIST", disabled: true,
+                        data: {
+                        email_validation_target: "submit"
+                        },
+                        class: "w-full rounded-full bg-slate-100 px-6 py-5 text-lg font-bold text-slate-800 shadow-sm transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#a30000] disabled:cursor-not-allowed disabled:opacity-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>
