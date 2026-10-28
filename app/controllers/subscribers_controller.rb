@@ -6,7 +6,7 @@ class SubscribersController < ApplicationController
   def create
     email = subscriber_params[:email].to_s.strip.downcase
     if email.present? && Subscriber.find_by_email(email).present?
-      return redirect_to thank_you_path
+      return redirect_to thank_you_path, status: :see_other
     end
     @subscriber = Subscriber.new(subscriber_params)
     @subscriber.email = email
