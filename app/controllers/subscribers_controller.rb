@@ -4,12 +4,13 @@ class SubscribersController < ApplicationController
   end
 
   def create
-    email = subscriber_params[:email].to_s.strip.downcase
-    if email.present? && Subscriber.find_by_email(email).present?
+    @subscriber = Subscriber.new(subscriber_params)
+
+    @subscriber.valid?
+
+    if @subscriber.email.present? && Subscriber.exists?(email: @subscriber.email)
       return redirect_to thank_you_path, status: :see_other
     end
-    @subscriber = Subscriber.new(subscriber_params)
-    @subscriber.email = email
 
     if @subscriber.save
       redirect_to thank_you_path, status: :see_other
