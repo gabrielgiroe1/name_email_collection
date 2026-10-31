@@ -66,4 +66,4 @@ group :test do
   gem "rspec-rails", ">= 8.0.4"
 end
 
-gem "tailwindcss-rails", "~> 4.6"
+gem "tailwindcss-rails", "~> 4.7"
